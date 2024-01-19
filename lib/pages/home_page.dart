@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:english_card_app/packages/quote/quote.dart';
+import 'package:english_card_app/pages/all_word_page.dart';
 import 'package:english_card_app/values/app_assets.dart';
 import 'package:english_card_app/values/app_colors.dart';
 import 'package:english_card_app/values/app_styles.dart';
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
 
   getEnglishToday(){
     List<String> newlist = [];
-    List<int> rans = fixeListRandom(len: 5, max: nouns.length);
+    List<int> rans = fixeListRandom(len: 10, max: nouns.length );
     rans.forEach((element) {
       newlist.add(nouns[element]);
     });
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage> {
               height: size.height * 2 / 3,
               margin: EdgeInsets.symmetric(horizontal: 24), // dung magen de taokhoang cach cua wedget hien tai voi xung  qunah no
               child: PageView.builder( // 1 view co the vuot qua
-                  itemCount: words.length, // toi da 5 trag
+                  itemCount:  6, // toi da 5 t// rag
                   controller: _pageController,
                   onPageChanged: (index){
                     setState(() {
@@ -108,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                     String lastLetter = word.substring(1, word.length);
 
                     String quoteDefault = "If you’re good at something, never do it for free."; //noi dung
-                    String quote = words[index].quote != null ? words[index].quote! : quoteDefault;
+                    String quote = words[index].quote != null ? words[index].quote! : quoteDefault ;
 
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -147,9 +148,10 @@ class _HomePageState extends State<HomePage> {
                         ]),),
                         Padding( //noi dung
                           padding: const EdgeInsets.only(top: 24),
-                          child: Text('"$quote"',style: AppStyles.h4.copyWith(letterSpacing: 1, color: AppColors.textColor// dãn chu
+                          child: Text('"$quote"',style: AppStyles.h4.copyWith(letterSpacing: 1, color: AppColors.textColor,
+                              overflow: TextOverflow.fade// dãn chu
                           ),),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -158,18 +160,23 @@ class _HomePageState extends State<HomePage> {
             ),
 
           // goi ham  indencator
-            SizedBox(
-              height: size.height * 1 / 11,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 24),
-                alignment: Alignment.center,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  physics: NeverScrollableScrollPhysics(), // khong  cho vuot
-                  itemCount: 5,
-                  itemBuilder: (context, index){
-                    return buildIndicator(index == _currentIndex, size);
-                  },
+        _currentIndex >= 5 // neu nhieu hon 5 goi ham show more
+            ? buildShowMore()
+            : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: SizedBox(
+                height: size.height * 1 / 11,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  alignment: Alignment.center,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    physics: NeverScrollableScrollPhysics(), // khong  cho vuot
+                    itemCount: 5,
+                    itemBuilder: (context, index){
+                      return buildIndicator(index == _currentIndex, size);
+                    },
+                  ),
                 ),
               ),
             ),
@@ -210,19 +217,40 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildIndicator(bool inActive, Size size){
-    return Container(
+  Widget buildIndicator(bool isActive, Size size) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 500),
       height: 8,
-      width: inActive ?  size.width * 1 / 5: 24,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 12),
+      width: isActive ? size.width * 1 / 5 : 24,
       decoration: BoxDecoration(
-          color: inActive ? AppColors.lighBlue : AppColors.lightGrey,
+          color: isActive ? AppColors.lighBlue : AppColors.lightGrey,
           borderRadius: BorderRadius.all(Radius.circular(12)),
           boxShadow: [
             BoxShadow(
-                color: Colors.black38, offset: Offset(2, 3), blurRadius: 3
-            ),
-          ]
+                color: Colors.black38, offset: Offset(2, 3), blurRadius: 3)
+          ]),
+    );
+  }
+  Widget buildShowMore(){
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      alignment: Alignment.centerLeft,
+      child: Material(
+        borderRadius: BorderRadius.all(Radius.circular(24)),
+        elevation: 4,
+        color: AppColors.primaryColor,
+        child: InkWell(
+          onTap: (){
+            Navigator.push(context, MaterialPageRoute(builder: (_) => AllWordPage(words: this.words,)));
+          },
+          splashColor:Colors.black38,
+          borderRadius: BorderRadius.all(Radius.circular(24)),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            child: Text("Show more", style: AppStyles.h5,),
+          ),
+        ),
       ),
     );
   }
