@@ -6,11 +6,13 @@ import 'package:english_card_app/values/app_assets.dart';
 import 'package:english_card_app/values/app_colors.dart';
 import 'package:english_card_app/values/app_styles.dart';
 import 'package:english_card_app/widgets/app_buttom.dart';
+import 'package:like_button/like_button.dart';
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import '../models/english_today.dart';
 import '../packages/quote/qoute_model.dart';
 import 'control_page.dart';
+import 'list_favorites_word.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -46,7 +48,7 @@ class _HomePageState extends State<HomePage> {
 
   getEnglishToday(){
     List<String> newlist = [];
-    List<int> rans = fixeListRandom(len: 10, max: nouns.length );
+    List<int> rans = fixeListRandom(len: 100, max: nouns.length );
     rans.forEach((element) {
       newlist.add(nouns[element]);
     });
@@ -95,7 +97,7 @@ class _HomePageState extends State<HomePage> {
               height: size.height * 2 / 3,
               margin: EdgeInsets.symmetric(horizontal: 24), // dung magen de taokhoang cach cua wedget hien tai voi xung  qunah no
               child: PageView.builder( // 1 view co the vuot qua
-                  itemCount:  6, // toi da 5 t// rag
+                  itemCount:  words.length > 5 ? 6: words.length,
                   controller: _pageController,
                   onPageChanged: (index){
                     setState(() {
@@ -110,49 +112,113 @@ class _HomePageState extends State<HomePage> {
 
                     String quoteDefault = "If you’re good at something, never do it for free."; //noi dung
                     String quote = words[index].quote != null ? words[index].quote! : quoteDefault ;
-
                 return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration( // lop dinh nghia cac thuoc tinh trang tri
-                      color: AppColors.primaryColor,
+                  padding: const EdgeInsets.all(4.0),
+                  child: Material(
+                    borderRadius: BorderRadius.all(Radius.circular(24)),
+                    color: AppColors.primaryColor,
+                    elevation: 4,
+                    child: InkWell(
+                      onTap: (){
+                        setState(() {
+                          words[index].isFavorate = !words[index].isFavorate;
+                        });
+                      },
+                      splashColor: Colors.black12,
                       borderRadius: BorderRadius.all(Radius.circular(24)),
-                    ),
-                    child: Column(// phan than cua man hinh con
-                      crossAxisAlignment: CrossAxisAlignment.start, // dua chu sang ben phai
-                      children: [
-                          Container(child: Image.asset(AppAssets.heart), alignment: Alignment.centerRight,), // set trai tim ve ben phai
-                        RichText(
-                          maxLines: 1, // gioi han max 1 dong
-                          overflow: TextOverflow.ellipsis, // xu ly khi tran chu
-                      textAlign: TextAlign.start, // luon dio  vao ben trai
-                          text: TextSpan(text: firstLetter, style: TextStyle(
-                          fontSize: 89,fontFamily: FontFamily.sen,
-                          shadows: [
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          boxShadow: [
                             BoxShadow(
-                              color: Colors.black38,
-                              offset: Offset(3, 6), // tao do bong
+                              color: Colors.black26,
+                              offset: Offset(3,6),
                               blurRadius: 6
-                            )
-                          ]
-                        ), children: [TextSpan(text: lastLetter, style: TextStyle(
-                            fontSize: 56,fontFamily: FontFamily.sen,
-                            shadows: [
-                              BoxShadow(
+                            ),
+                          ],
+                          borderRadius: BorderRadius.all(Radius.circular(24)),
+                        ),
+                        child:
+                        index >= 5
+                        ? InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => AllWordPage(words: this.words,)));
+                          },
+                            child: Center(
+                              child: Text("Show more...",
+                                style: AppStyles.h3.copyWith(
+                                  shadows: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      offset: Offset(3, 6),
+                                      blurRadius: 6,
+                                    )
+                                  ]
+                                ),),
+                            ))
+                        :Column(// phan than cua man hinh con
+                          crossAxisAlignment: CrossAxisAlignment.start, // dua chu sang ben phai
+                          children: [
+                              // Container(child: Image.asset(AppAssets.heart, color: words[index].isFavorate  ? Colors.red : Colors.white,), alignment: Alignment.centerRight,), // set trai tim ve ben phai
+                            LikeButton(
+                              isLiked: words[index].isFavorate,// su dung thu vien de tao icon
+                              size: 42,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              onTap: (bool isLiked )async{
+                                  setState(() {
+                                    words[index].isFavorate = !words[index].isFavorate;
+                                  });
+                                  return words[index].isFavorate;
+                              },
+                              circleColor:
+                              CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                              bubblesColor: BubblesColor(
+                                dotPrimaryColor: Color(0xff33b5e5),
+                                dotSecondaryColor: Color(0xff0099cc),
+                              ),
+                              likeBuilder: (bool isLiked) {
+                                return ImageIcon(
+                                  AssetImage(
+                                    AppAssets.heart,
+                                  ),
+                                  color: words[index].isFavorate  ? Colors.red : Colors.white,
+                                );
+                              },
+                            ),
+                            RichText(
+                              maxLines: 1, // gioi han max 1 dong
+                              overflow: TextOverflow.ellipsis, // xu ly khi tran chu
+                          textAlign: TextAlign.start, // luon dio  vao ben trai
+                              text: TextSpan(text: firstLetter, style: TextStyle(
+                              fontSize: 89,fontFamily: FontFamily.sen,
+                              shadows: [
+                                BoxShadow(
                                   color: Colors.black38,
                                   offset: Offset(3, 6), // tao do bong
                                   blurRadius: 6
-                              )
-                            ]
-                        )),
-                        ]),),
-                        Padding( //noi dung
-                          padding: const EdgeInsets.only(top: 24),
-                          child: Text('"$quote"',style: AppStyles.h4.copyWith(letterSpacing: 1, color: AppColors.textColor,
-                              overflow: TextOverflow.fade// dãn chu
-                          ),),
+                                )
+                              ]
+                            ), children: [TextSpan(text: lastLetter, style: TextStyle(
+                                fontSize: 56,fontFamily: FontFamily.sen,
+                                shadows: [
+                                  BoxShadow(
+                                      color: Colors.black38,
+                                      offset: Offset(3, 6), // tao do bong
+                                      blurRadius: 6
+                                  )
+                                ]
+                            )),
+                            ]),),
+                            Padding( //noi dung
+                              padding: const EdgeInsets.only(top: 24),
+                              child: Text('"$quote"',style: AppStyles.h4.copyWith(letterSpacing: 1, color: AppColors.textColor,
+                                  overflow: TextOverflow.fade// dãn chu
+                              ),),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 );
@@ -210,8 +276,10 @@ class _HomePageState extends State<HomePage> {
               }),),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 24),
-              child: AppButton(label: "Favorites", onTap: (){print("Your=");}),
-            ),
+              child: AppButton(label: "Favorites", onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (_) => ListFavoritesWord(words: this.words,)));
+              }
+            )),
           ],
         ), ),), // set mau khi an dau 3 soc ben trai
     );
@@ -242,7 +310,7 @@ class _HomePageState extends State<HomePage> {
         color: AppColors.primaryColor,
         child: InkWell(
           onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder: (_) => AllWordPage(words: this.words,)));
+            Navigator.push(context, MaterialPageRoute(builder: (_) => ListFavoritesWord(words: this.words,)));
           },
           splashColor:Colors.black38,
           borderRadius: BorderRadius.all(Radius.circular(24)),
