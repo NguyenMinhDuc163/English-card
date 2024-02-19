@@ -11,13 +11,20 @@ English Card là một ứng dụng giúp người dùng học từ vựng tiế
 - **Ôn tập từ vựng:** Ứng dụng cung cấp chế độ ôn tập để người dùng kiểm tra kiến thức từ vựng đã học thông qua các bài kiểm tra ngẫu nhiên.
 - **Giao diện đơn giản và dễ sử dụng:** Giao diện của ứng dụng được thiết kế đơn giản, dễ hiểu, giúp người dùng dễ dàng sử dụng và tập trung vào việc học.
 
-## Sử dụng
+## Giao diện
 
-![Khởi động ứng dụng](https://drive.google.com/file/d/1VuHeyTQOfcZFb9RkCSh7Evir3cfn2OFG/view?usp=drive_link)
+## Màn hình mở đầu
+![Màn hình mở đầu](test/image/intro.png)
 
-- Tạo mới hoặc chọn một bộ từ vựng đã có.
-- Thêm mới, sửa đổi hoặc xóa các thẻ từ vựng.
-- Bắt đầu ôn tập từ vựng bằng cách chọn chế độ ôn tập và làm theo hướng dẫn.
+## Màn hình chính
+![Màn hình chính](link_tới_ảnh_main)
+
+## Màn hình điều kiển
+![Màn hình điều kiển](link_tới_ảnh_control)
+
+## Màn hình cài đặt
+![Màn hình cài đặt](link_tới_ảnh_setting)
+
 
 ## Đóng góp
 
