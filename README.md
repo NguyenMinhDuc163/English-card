@@ -17,13 +17,13 @@ English Card là một ứng dụng giúp người dùng học từ vựng tiế
 ![Màn hình mở đầu](test/image/intro.png)
 
 ## Màn hình chính
-![Màn hình chính](link_tới_ảnh_main)
+![Màn hình chính](test/image/main.png)
 
 ## Màn hình điều kiển
-![Màn hình điều kiển](link_tới_ảnh_control)
+![Màn hình điều kiển](test/image/control.png)
 
 ## Màn hình cài đặt
-![Màn hình cài đặt](link_tới_ảnh_setting)
+![Màn hình cài đặt](test/image/setting.png)
 
 
 ## Đóng góp
