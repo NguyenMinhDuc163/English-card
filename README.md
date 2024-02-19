@@ -13,7 +13,8 @@ English Card là một ứng dụng giúp người dùng học từ vựng tiế
 
 ## Sử dụng
 
-- Đăng nhập vào ứng dụng .
+![Khởi động ứng dụng](https://drive.google.com/file/d/1VuHeyTQOfcZFb9RkCSh7Evir3cfn2OFG/view?usp=drive_link)
+
 - Tạo mới hoặc chọn một bộ từ vựng đã có.
 - Thêm mới, sửa đổi hoặc xóa các thẻ từ vựng.
 - Bắt đầu ôn tập từ vựng bằng cách chọn chế độ ôn tập và làm theo hướng dẫn.
