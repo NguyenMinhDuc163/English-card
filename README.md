@@ -3,7 +3,7 @@
 ## Giới thiệu
 
 English Card là một ứng dụng giúp người dùng học từ vựng tiếng Anh một cách hiệu quả thông qua việc sử dụng thẻ. Ứng dụng cho phép người dùng tạo ra các bộ từ vựng, mỗi bộ gồm các thẻ với từ vựng và ý nghĩa tương ứng. Người dùng có thể ôn tập từ vựng bằng cách xem các thẻ và kiểm tra kiến thức thông qua các bài kiểm tra tích hợp.
-
+ 
 ## Tính năng
 
 - **Tạo và quản lý bộ từ vựng:** Người dùng có thể tạo mới, chỉnh sửa và xóa các bộ từ vựng theo nhu cầu của mình.
